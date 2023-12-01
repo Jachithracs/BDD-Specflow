@@ -7,11 +7,16 @@ Background:
   Given User will be on the login page
 
 @positive
-Scenario: Login with Valid Credentials
-	When User will enter username
-	And User will enter password
-	And User will click on login button
-	Then User will be redirected to Homepage
+Scenario Outline: Login with valid credentials
+	When User will enter '<UserName>'
+	And  User will enter '<Password>'
+	And  User will click on login button
+	Then User will be redirected 
+
+	Examples:
+     | UserName      | Password |
+     | abc@gmail.com | 1234     |
+     | xyz@gmail.com | 4567     |
 
 @negative
 Scenario: Login with Invalid Credentials

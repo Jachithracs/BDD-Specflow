@@ -30,34 +30,36 @@ namespace LinkedinTest.StepDefinitions
         {
             driver?.Quit();
         }
-        
 
-       
-        [When(@"User will enter username")]
-        public void WhenUserWillEnterUsername()
+        [When(@"User will enter '(.*)' ")]
+        public void WhenUserWillEnterUsername(string un)
         {
-            
             DefaultWait<IWebDriver?> fluentWait = new DefaultWait<IWebDriver?>(driver);
-            fluentWait.Timeout = TimeSpan.FromSeconds(5);
+            fluentWait.Timeout = TimeSpan.FromSeconds(10);
             fluentWait.PollingInterval = TimeSpan.FromMilliseconds(100);
             fluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
-            fluentWait.Message = "Elemet Not Found";
-            IWebElement emailInput = fluentWait.Until(driv => driv.FindElement(By.Id("session_key")));
-            emailInput.SendKeys("abc@xyz.com");
-            
+            fluentWait.Message = "Element not found";
+
+            IWebElement emailInput = fluentWait.Until(d => d.FindElement(By.Id("session_key")));
+            emailInput.SendKeys(un);
         }
 
-        [When(@"User will enter password")]
-        public void WhenUserWillEnterPassword()
+        [When(@"User will enter '(.*)'")]
+        public void WhenUserWillEnterPassword(string pwd)
         {
             DefaultWait<IWebDriver?> fluentWait = new DefaultWait<IWebDriver?>(driver);
-            fluentWait.Timeout = TimeSpan.FromSeconds(5);
+            fluentWait.Timeout = TimeSpan.FromSeconds(10);
             fluentWait.PollingInterval = TimeSpan.FromMilliseconds(100);
             fluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
-            fluentWait.Message = "Elemet Not Found";
-            passwordInput = fluentWait.Until(driv => driv.FindElement(By.Id("session_password")));
-            passwordInput.SendKeys("123");
-            Console.WriteLine(passwordInput.GetAttribute("value"));
+            fluentWait.Message = "Element not found";
+
+            passwordInput = fluentWait.Until(d => d.FindElement(By.Id("session_password")));
+            passwordInput.SendKeys(pwd);
+        }
+        [Then(@"User will be redirected")]
+        public void ThenUserWillBeRedirected()
+        {
+            Assert.That(driver.Title.Contains("Log In"));
         }
 
         [When(@"User will click on login button")]
