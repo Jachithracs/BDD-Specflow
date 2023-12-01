@@ -10,29 +10,29 @@ namespace LinkedinTest.StepDefinitions
     [Binding]
     public class LoginSteps
     {
-        public IWebDriver? driver;
+        public static IWebDriver? driver;
 
         private IWebElement? passwordInput;
-        /*
-        [BeforeScenario]
-        public void InitializeBrowser()
+        
+        [BeforeFeature]
+        public static void InitializeBrowser()
         {
-            
+            driver = new ChromeDriver();
         }
-        [AfterScenario]
-        public void CleanupBrowser()
-        {
-            driver?.Quit();
-        }
-        */
-
         [Given(@"User will be on the login page")]
         public void GivenUserWillBeOnTheLoginPage()
         {
-            driver = new ChromeDriver();
             driver.Url = "https://linkedin.com";
         }
 
+        [AfterFeature]
+        public static void Cleanup()
+        {
+            driver?.Quit();
+        }
+        
+
+       
         [When(@"User will enter username")]
         public void WhenUserWillEnterUsername()
         {
@@ -56,7 +56,7 @@ namespace LinkedinTest.StepDefinitions
             fluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
             fluentWait.Message = "Elemet Not Found";
             passwordInput = fluentWait.Until(driv => driv.FindElement(By.Id("session_password")));
-            passwordInput.SendKeys("12345");
+            passwordInput.SendKeys("123");
             Console.WriteLine(passwordInput.GetAttribute("value"));
         }
 
@@ -85,8 +85,8 @@ namespace LinkedinTest.StepDefinitions
             Assert.That(alerttext.Equals("The password you provided must have at least 6 characters"));
         }
 
-        [When(@"User will click on Show link in the password textbox")]
-        public void WhenUserWillClickOnShowLinkInThePasswordTextbox()
+        [When(@"User will click on Show link in the password input box")]
+        public void WhenUserWillClickOnShowLinkInThePasswordInputbox()
         {
             IWebElement showButton = driver.FindElement(By.XPath("//button[text()='Show']"));
             showButton.Click();
@@ -98,15 +98,15 @@ namespace LinkedinTest.StepDefinitions
             Assert.That(passwordInput.GetAttribute("type").Equals("text"));
         }
 
-        [When(@"User will click on Hide link in the password textbox")]
-        public void WhenUserWillClickOnHideLinkInThePasswordTextbox()
+        [When(@"User will click on Hide link in the password input box")]
+        public void WhenUserWillClickOnHideLinkInThePasswordInputbox()
         {
             IWebElement hideButton = driver.FindElement(By.XPath("//button[text()='Hide']"));
             hideButton.Click();
         }
 
-        [Then(@"the password characters should not be shown")]
-        public void ThenThePasswordCharactersShouldNotBeShown()
+        [Then(@"the password characters should be \*")]
+        public void ThenThePasswordCharactersShouldBe()
         {
             Assert.That(passwordInput.GetAttribute("type").Equals("password"));
         }
