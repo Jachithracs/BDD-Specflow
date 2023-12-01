@@ -98,6 +98,18 @@ namespace LinkedinTest.StepDefinitions
             Assert.That(passwordInput.GetAttribute("type").Equals("text"));
         }
 
+        [When(@"User will click on Hide link in the password textbox")]
+        public void WhenUserWillClickOnHideLinkInThePasswordTextbox()
+        {
+            IWebElement hideButton = driver.FindElement(By.XPath("//button[text()='Hide']"));
+            hideButton.Click();
+        }
+
+        [Then(@"the password characters should not be shown")]
+        public void ThenThePasswordCharactersShouldNotBeShown()
+        {
+            Assert.That(passwordInput.GetAttribute("type").Equals("password"));
+        }
 
     }
 }
