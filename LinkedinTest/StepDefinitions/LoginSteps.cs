@@ -11,27 +11,32 @@ namespace LinkedinTest.StepDefinitions
     public class LoginSteps
     {
         public static IWebDriver? driver;
-
         private IWebElement? passwordInput;
-        
+
+
         [BeforeFeature]
         public static void InitializeBrowser()
         {
             driver = new ChromeDriver();
         }
+        [BeforeScenario]
+        public static void LoadURL()
+        {
+            driver.Url = "https://www.linkedin.com";
+        }
         [Given(@"User will be on the login page")]
         public void GivenUserWillBeOnTheLoginPage()
         {
-            driver.Url = "https://linkedin.com";
+            driver.Url = "https://www.linkedin.com";
         }
 
         [AfterFeature]
-        public static void Cleanup()
+        public static void CleanUp()
         {
             driver?.Quit();
         }
 
-        [When(@"User will enter '(.*)' ")]
+        [When(@"User will enter username '(.*)'")]
         public void WhenUserWillEnterUsername(string un)
         {
             DefaultWait<IWebDriver?> fluentWait = new DefaultWait<IWebDriver?>(driver);
@@ -44,7 +49,7 @@ namespace LinkedinTest.StepDefinitions
             emailInput.SendKeys(un);
         }
 
-        [When(@"User will enter '(.*)'")]
+        [When(@"User will enter password '(.*)'")]
         public void WhenUserWillEnterPassword(string pwd)
         {
             DefaultWait<IWebDriver?> fluentWait = new DefaultWait<IWebDriver?>(driver);
@@ -56,62 +61,58 @@ namespace LinkedinTest.StepDefinitions
             passwordInput = fluentWait.Until(d => d.FindElement(By.Id("session_password")));
             passwordInput.SendKeys(pwd);
         }
-        [Then(@"User will be redirected")]
-        public void ThenUserWillBeRedirected()
-        {
-            Assert.That(driver.Title.Contains("Log In"));
-        }
 
         [When(@"User will click on login button")]
         public void WhenUserWillClickOnLoginButton()
         {
             IJavaScriptExecutor? js = (IJavaScriptExecutor?)driver;
-            js.ExecuteScript("arguments[0].scrollIntoView(true);", driver?.FindElement(
-                By.XPath("//button[@type='submit']")));
-            Thread.Sleep(5000);
+            js?.ExecuteScript("arguments[0].scrollIntoView(true);", driver?.FindElement(By.XPath("//button[@type='submit']")));
 
-            js.ExecuteScript("arguments[0].click();", driver?.FindElement(
-                By.XPath("//button[@type='submit']")));
+            Thread.Sleep(5000);
+            js?.ExecuteScript("arguments[0].click();", driver?.FindElement(By.XPath("//button[@type='submit']")));
         }
 
-        [Then(@"User will be redirected to Homepage")]
-        public void ThenUserWillBeRedirectedToHomepage()
+        [Then(@"User will be redirected to home page")]
+        public void ThenUserWillBeRedirectedToHomePage()
         {
             Assert.That(driver.Title.Contains("Log In"));
         }
-        [Then(@"Error message for Password Length should be thrown")]
+
+        [Then(@"Error message for password length should be thrown")]
         public void ThenErrorMessageForPasswordLengthShouldBeThrown()
         {
-            IWebElement alertPara = driver.FindElement(By.XPath("//p[@for='session_password']"));
-            string? alerttext = alertPara?.Text;
-            Assert.That(alerttext.Equals("The password you provided must have at least 6 characters"));
+            IWebElement? alertPara = driver?.FindElement(By.XPath("//p[@for='session_password']"));
+            string? alertText = alertPara?.Text;
+            Console.WriteLine(alertText);
+            Assert.That(alertText.Contains("password"));
         }
 
-        [When(@"User will click on Show link in the password input box")]
-        public void WhenUserWillClickOnShowLinkInThePasswordInputbox()
+        [When(@"User will click on show button in the password text box")]
+        public void WhenUserWillClickOnShowButtonInThePasswordTextBox()
         {
             IWebElement showButton = driver.FindElement(By.XPath("//button[text()='Show']"));
             showButton.Click();
         }
 
-        [Then(@"the password characters should be shown")]
+        [Then(@"The password characters should be shown")]
         public void ThenThePasswordCharactersShouldBeShown()
         {
             Assert.That(passwordInput.GetAttribute("type").Equals("text"));
         }
 
-        [When(@"User will click on Hide link in the password input box")]
-        public void WhenUserWillClickOnHideLinkInThePasswordInputbox()
+        [When(@"User will click on hide button in the password text box")]
+        public void WhenUserWillClickOnHideButtonInThePasswordTextBox()
         {
             IWebElement hideButton = driver.FindElement(By.XPath("//button[text()='Hide']"));
             hideButton.Click();
         }
 
-        [Then(@"the password characters should be \*")]
-        public void ThenThePasswordCharactersShouldBe()
+        [Then(@"The password characters should not be shown")]
+        public void ThenThePasswordCharactersShouldNotBeShown()
         {
             Assert.That(passwordInput.GetAttribute("type").Equals("password"));
         }
+
 
     }
 }

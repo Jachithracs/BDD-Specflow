@@ -8,33 +8,41 @@ Background:
 
 @positive
 Scenario Outline: Login with valid credentials
-	When User will enter '<UserName>'
-	And  User will enter '<Password>'
+	When User will enter username '<UserName>'
+	And  User will enter password '<Password>'
 	And  User will click on login button
-	Then User will be redirected 
-
-	Examples:
+	Then User will be redirected to home page
+Examples:
      | UserName      | Password |
      | abc@gmail.com | 1234     |
      | xyz@gmail.com | 4567     |
 
 @negative
-Scenario: Login with Invalid Credentials
-	When User will enter username
-	And User will enter password
-	And User will click on login button
-	Then Error message for Password Length should be thrown
+Scenario Outline: Login with invalid credentials
+	When User will enter username '<UserName>'
+	And  User will enter password '<Password>'
+	And  User will click on login button
+	Then Error message for password length should be thrown
+Examples:
+     | UserName      | Password |
+     | def@dnne.com  | 444      |
+     | xyz@gmail.com | 436      |
 
 @regression
-Scenario: Check for Password Hidden Display
-	When User will enter password
-	And User will click on Show link in the password input box
-	Then the password characters should be shown
+Scenario Outline: Check for Password Hidden Display
+	When User will enter password '<Password>'
+	And  User will click on show button in the password text box
+	Then The password characters should be shown
+Examples:
+     | Password |
+     | 1111     |
 
 @regression
-Scenario: Check for Password Show Display
-	When User will enter password
-	And User will click on Show link in the password input box
-	And User will click on Hide link in the password input box
-	Then the password characters should be *
-
+Scenario Outline: Check for Password Show Display
+	When User will enter password '<Password>'
+	And  User will click on show button in the password text box
+	And  User will click on hide button in the password text box
+	Then The password characters should not be shown
+Examples:
+     | Password |
+     | 2222     |
