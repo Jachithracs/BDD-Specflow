@@ -13,11 +13,11 @@ namespace BunnyCart.StepDefinitions
         IWebDriver? driver = BeforeHooks.driver;
         string? label;
 
-        [Given(@"Search page is loaded")]
-        public void GivenSearchPageIsLoaded()
-        {
-            driver.Url = "https://www.bunnycart.com/catalogsearch/result/?q=water";
-        }
+        //[Given(@"Search page is loaded")]
+        //public void GivenSearchPageIsLoaded()
+        //{
+        //    driver.Url = "https://www.bunnycart.com/catalogsearch/result/?q=water";
+        //}
 
         [When(@"User selects a '([^']*)'")]
         public void WhenUserSelectsA(string prodno)

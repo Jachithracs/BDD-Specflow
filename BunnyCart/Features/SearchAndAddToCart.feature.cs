@@ -76,8 +76,10 @@ namespace BunnyCart.Features
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("1 Search for products")]
         [NUnit.Framework.CategoryAttribute("E2E-Search_And_Add_To_Cart")]
-        [NUnit.Framework.TestCaseAttribute("water", null)]
-        public virtual void _1SearchForProducts(string searchtext, string[] exampleTags)
+        [NUnit.Framework.TestCaseAttribute("water", "1", null)]
+        [NUnit.Framework.TestCaseAttribute("java", "1", null)]
+        [NUnit.Framework.TestCaseAttribute("hairgrass", "1", null)]
+        public virtual void _1SearchForProducts(string searchtext, string productno, string[] exampleTags)
         {
             string[] @__tags = new string[] {
                     "E2E-Search_And_Add_To_Cart"};
@@ -88,6 +90,7 @@ namespace BunnyCart.Features
             string[] tagsOfScenario = @__tags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("searchtext", searchtext);
+            argumentsOfScenario.Add("productno", productno);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("1 Search for products", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 4
 this.ScenarioInitialize(scenarioInfo);
@@ -124,53 +127,10 @@ this.ScenarioInitialize(scenarioInfo);
 #line 9
  testRunner.And(string.Format("Title should have \'{0}\'", searchtext), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "* ");
 #line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("2 Select a particular product")]
-        [NUnit.Framework.CategoryAttribute("E2E-Search_And_Add_To_Cart")]
-        [NUnit.Framework.TestCaseAttribute("1", null)]
-        public virtual void _2SelectAParticularProduct(string productno, string[] exampleTags)
-        {
-            string[] @__tags = new string[] {
-                    "E2E-Search_And_Add_To_Cart"};
-            if ((exampleTags != null))
-            {
-                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
-            }
-            string[] tagsOfScenario = @__tags;
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            argumentsOfScenario.Add("productno", productno);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("2 Select a particular product", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 15
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 16
- testRunner.Given("Search page is loaded", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 17
+#line 10
  testRunner.When(string.Format("User selects a \'{0}\'", productno), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 18
+#line 11
  testRunner.Then("Product page is loaded", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
