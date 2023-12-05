@@ -22,6 +22,7 @@
   <ItemGroup>
     <Folder Include="Drivers\" />
     <Folder Include="Features\" />
+    <Folder Include="Logs\" />
     <Folder Include="ScreenShot\" />
     <Folder Include="Support\" />
   </ItemGroup>

@@ -1,3 +1,4 @@
+using BunnyCart.Hooks;
 using BunnyCart.Utilities;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -12,31 +13,23 @@ namespace BunnyCart.StepDefinitions
     [Binding]
     public class SearchStepDefinitions : CoreCodes
     {
-        
-        public static IWebDriver? driver;
-        [BeforeFeature]
-        public static void InitializeBrowser()
-        {
-            driver = new ChromeDriver();
-
-        }
-
+        IWebDriver? driver = BeforeHooks.driver;
+       
         [Given(@"User will be on the Homepage")]
         public void GivenUserWillBeOnTheHomepage()
         {
             driver.Url = "https://www.bunnycart.com";
+            driver.Manage().Window.Maximize();
         }
-        [AfterFeature]
-        public static void CleanupBrowser()
-        {
-            driver?.Quit();
-        }
-
+        
+       
         [When(@"User will type the '([^']*)' in the searchbox")]
         public void WhenUserWillTypeTheInTheSearchbox(string searchtext)
         {
             IWebElement? searchInput = driver.FindElement(By.Id("search"));
-            searchInput.SendKeys(searchtext);
+            searchInput?.SendKeys(searchtext);
+            Log.Information("Typed search text " + searchtext);
+            searchInput?.SendKeys(Keys.Enter);
         }
 
         [When(@"User clicks on search button")]
@@ -49,25 +42,16 @@ namespace BunnyCart.StepDefinitions
         [Then(@"Search results are loaded in the same page with '([^']*)'")]
         public void ThenSearchResultsAreLoadedInTheSamePageWith(string searchtext)
         {
-            string currdir = Directory.GetParent(@"../../../").FullName;
-            string logfilepath = currdir + "/Logs/log_" + DateTime.Now.ToString
-                ("yyyymmdd_HHmmss") + ".txt";
-
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.Console()
-                .WriteTo.File(logfilepath, rollingInterval: RollingInterval.Day)
-                .CreateLogger();
-
             TakeScreenShot(driver);
-
+            Log.Information("Screenshot taken");
             try
             {
                 Assert.That(driver.Url.Contains(searchtext));
-                LogTestResult("Search Test", "Search Test success");
+                LogTestResult("Search Test", "Search Test Success");
             }
-            catch(AssertionException ex)
+            catch (AssertionException ex)
             {
-                LogTestResult("Search Test", "Search Test failed",ex.Message);
+                LogTestResult("Search Test", "Search Test Failed", ex.Message);
             }
         }
     }

@@ -1,6 +1,0 @@
-2023-12-04 15:37:22.950 +05:30 [INF] Search Test failed
-2023-12-04 15:37:23.003 +05:30 [ERR] Test failed for Search Test.
- Exception:
-   Expected: True
-  But was:  False
-

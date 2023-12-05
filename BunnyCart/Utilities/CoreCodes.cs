@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using BunnyCart.Hooks;
+using OpenQA.Selenium;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace BunnyCart.Utilities
 {
     public class CoreCodes
     {
-        public static IWebDriver driver;
+        //IWebDriver? driver = BeforeHooks.driver;
         public void TakeScreenShot(IWebDriver driver)
         {
 

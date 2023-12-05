@@ -1,2 +1,0 @@
-2023-12-04 15:52:43.764 +05:30 [INF] Search Test success
-2023-12-04 15:52:43.815 +05:30 [INF] Search Test Passed
